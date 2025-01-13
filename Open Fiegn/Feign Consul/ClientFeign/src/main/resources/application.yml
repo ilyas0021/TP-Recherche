@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: ConsulFeignClient
+  cloud:
+    consul:
+      config:
+        import-check:
+          enabled: false
+      discovery:
+        enabled: true
+        service-name: ${spring.application.name}
+      host: localhost
+      port: 8500
+
+server:
+  port: 8089
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}

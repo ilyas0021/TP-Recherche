@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: EurekaGateway
+  cloud:
+    discovery:
+      enabled: false
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4300"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
+      routes:
+        - id: r1
+          uri: http://localhost:8081
+          predicates:
+            - Path=/clients/**
+        - id: r2
+          uri: http://localhost:8081
+          predicates:
+            - Path=/client/**
+        - id: r3
+          uri: http://localhost:8082
+          predicates:
+            - Path=/voituress/**
+        - id: r4
+          uri: http://localhost:8082
+          predicates:
+            - Path=/voitures/**
+
+  
+
+server:
+  port: 8888
+
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+  
